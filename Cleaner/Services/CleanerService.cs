@@ -15,7 +15,7 @@ namespace Cleaner.Services
             await DeleteDirectory(path).ConfigureAwait(false);
         }
 
-        public async Task DeleteFolder(IEnumerable<string> paths)
+        public async Task DeleteFolder(List<string> paths)
         {
             foreach (string path in paths)
             {
@@ -23,7 +23,7 @@ namespace Cleaner.Services
             }
         }
 
-        public async Task DeleteFolder(string directory, IEnumerable<string> folderNames)
+        public async Task DeleteFolder(string directory, List<string> folderNames)
         {
             var tasks = new List<Task>();
             foreach (string folderName in folderNames)
@@ -35,7 +35,7 @@ namespace Cleaner.Services
             Task.WaitAll(tasks.ToArray());
         }
 
-        public async Task DeleteFolder(IEnumerable<string> directories, string folderName)
+        public async Task DeleteFolder(List<string> directories, string folderName)
         {
             var tasks = new List<Task>();
             foreach (string directory in directories)
@@ -47,7 +47,7 @@ namespace Cleaner.Services
             Task.WaitAll(tasks.ToArray());
         }
 
-        public async Task DeleteFolder(IEnumerable<string> directories, IEnumerable<string> folderNames)
+        public async Task DeleteFolder(List<string> directories, List<string> folderNames)
         {
             var tasks = new List<Task>();
             foreach (string folderName in folderNames)

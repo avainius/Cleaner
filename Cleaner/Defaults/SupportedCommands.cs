@@ -2,9 +2,28 @@
 {
     public class SupportedCommands
     {
-        public const string AddDirectory = "AddDirectory";
-        public const string AddFolder = "AddFolder";
-        public const string Execute = "Execute";
-        public const string Help = "Help";
+        public static readonly string[] AddDirectory =
+        {
+            "AddDirectory",
+            "ad"
+        };
+
+        public static readonly string[] AddFolder =
+        {
+            "AddFolder",
+            "af"
+
+        };
+
+        public static readonly string[] Execute =
+        {
+            "Execute",
+            "ex"
+        };
+
+        public static readonly string[] Help =
+        {
+            "Help"
+        };
     }
 }

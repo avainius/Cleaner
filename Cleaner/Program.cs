@@ -24,7 +24,7 @@ namespace Cleaner
             string command = Console.ReadLine();
             while (command != "quit")
             {
-                commandService.ProcessCommand(command);
+                await commandService.ProcessCommand(command).ConfigureAwait(false);
                 command = Console.ReadLine();
             }
 

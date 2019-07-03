@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using Cleaner.Defaults;
+using System.Threading.Tasks;
 using Cleaner.Helpers;
 using Cleaner.Interface;
 
@@ -9,29 +8,29 @@ namespace Cleaner.Services
 {
     public class CommandService : ICommandService
     {
-        private IConfigurationService configurationService;
-        private IEnumerable<ICleanerService> cleanerServices;
+        private readonly IConfigurationService _configurationService;
+        private readonly ICleanerService _cleanerService;
         private readonly string InvalidCommandText = "Invalid command exception";
 
-        public CommandService(IConfigurationService configurationService, IEnumerable<ICleanerService> cleanerServices)
+        public CommandService(IConfigurationService configurationService, ICleanerService cleanerService)
         {
-            this.configurationService = configurationService;
-            this.cleanerServices = cleanerServices;
+            _configurationService = configurationService;
+            _cleanerService = cleanerService;
         }
 
-        public void ProcessCommand(string command)
+        public async Task ProcessCommand(string command)
         {
-            if (command.StartsWith(SupportedCommands.AddDirectory, StringComparison.CurrentCultureIgnoreCase))
-            {
-                AddDirectory(command);
-            }
-            else if (command.StartsWith(SupportedCommands.Help, StringComparison.CurrentCultureIgnoreCase))
-            {
-                Help();
-            }
+
         }
 
-        private void AddDirectory(string command)
+        private async Task Execute()
+        {
+            List<string> directories = await _configurationService.GetDirectories().ConfigureAwait(false);
+            List<string> folders = await _configurationService.GetFolders().ConfigureAwait(false);
+            await _cleanerService.DeleteFolder(directories, folders).ConfigureAwait(false);
+        }
+
+        private async Task AddDirectory(string command)
         {
             string[] values = command.Split(' ');
             if (values.Length != 2)
@@ -39,16 +38,15 @@ namespace Cleaner.Services
                 throw new Exception($"{InvalidCommandText}: {command}");
             }
 
-            configurationService.AddDirectory(values[1]);
-            configurationService.SaveConfiguration();
+            await _configurationService.AddDirectory(values[1]).ConfigureAwait(false);
+            await _configurationService.SaveConfiguration().ConfigureAwait(false);
         }
 
-        private void Help()
+
+
+        private async Task Help()
         {
-            Logger.Log("Available commands:");
-            Logger.Log(SupportedCommands.AddDirectory);
-            Logger.Log(SupportedCommands.AddFolder);
-            Logger.Log(SupportedCommands.Execute);
+            await Logger.Log("Available commands:").ConfigureAwait(false);
         }
     }
 }

@@ -6,10 +6,10 @@ namespace Cleaner.Interface
     public interface ICleanerService
     {
         Task DeleteFolder(string path);
-        Task DeleteFolder(IEnumerable<string> paths);
-        Task DeleteFolder(string directory, IEnumerable<string> folderNames);
-        Task DeleteFolder(IEnumerable<string> directories, string folderName);
-        Task DeleteFolder(IEnumerable<string> directories, IEnumerable<string> folderNames);
+        Task DeleteFolder(List<string> paths);
+        Task DeleteFolder(string directory, List<string> folderNames);
+        Task DeleteFolder(List<string> directories, string folderName);
+        Task DeleteFolder(List<string> directories, List<string> folderNames);
         Task DeleteDirectory(string directory);
         Task<string[]> GetFolderDirectories(string path, string folder);
     }

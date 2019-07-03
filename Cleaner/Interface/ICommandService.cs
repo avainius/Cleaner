@@ -1,7 +1,9 @@
-﻿namespace Cleaner.Interface
+﻿using System.Threading.Tasks;
+
+namespace Cleaner.Interface
 {
     public interface ICommandService
     {
-        void ProcessCommand(string command);
+        Task ProcessCommand(string command);
     }
 }
